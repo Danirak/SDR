@@ -8,10 +8,10 @@ export interface ValidationResult {
 }
 
 /**
- * Verifica si un correo electrónico pertenece a un dominio permitido
+ * Verifica si un correo electrónico pertenece a un dominio permitido o es un correo específico permitido
  * @param email - Correo electrónico a validar
- * @param allowedDomains - Lista de dominios permitidos
- * @returns true si el dominio está permitido, false en caso contrario
+ * @param allowedDomains - Lista de dominios o correos completos permitidos
+ * @returns true si el dominio/correo está permitido, false en caso contrario
  */
 export function isAllowedDomain(email: string, allowedDomains: string[]): boolean {
   if (!email || typeof email !== 'string') {
@@ -24,6 +24,8 @@ export function isAllowedDomain(email: string, allowedDomains: string[]): boolea
     return false;
   }
 
+  const emailLower = email.toLowerCase();
+
   // Extraer el dominio del email
   const emailParts = email.split('@');
   if (emailParts.length !== 2) {
@@ -32,10 +34,18 @@ export function isAllowedDomain(email: string, allowedDomains: string[]): boolea
 
   const domain = emailParts[1].toLowerCase();
 
-  // Verificar si el dominio está en la lista de permitidos (case-insensitive)
-  return allowedDomains.some(
-    (allowedDomain) => allowedDomain.toLowerCase() === domain
-  );
+  // Verificar si:
+  // 1. El correo completo está en la lista (para correos específicos)
+  // 2. El dominio está en la lista (para dominios institucionales)
+  return allowedDomains.some((allowed) => {
+    const allowedLower = allowed.toLowerCase();
+    // Si contiene @, es un correo específico
+    if (allowedLower.includes('@')) {
+      return allowedLower === emailLower;
+    }
+    // Si no, es un dominio
+    return allowedLower === domain;
+  });
 }
 
 /**
