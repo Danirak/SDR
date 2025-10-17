@@ -1,0 +1,50 @@
+# Environment variables and secrets
+.env
+.env.local
+*.txt
+*.key
+
+# Scripts with API keys
+create-linear-tickets.js
+create-linear-tickets.py
+create-tickets.sh
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Testing
+coverage/
+.nyc_output/
+
+# Vercel
+.vercel
